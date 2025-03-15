@@ -31,3 +31,5 @@ Personal Project #1
   -sub lists
 
 TO-DO:
+- create Callender view
+- make days clickable
