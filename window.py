@@ -17,10 +17,7 @@ class Window(tk.Tk):
 
         self.Calendar=CalendarFrame(self,"CalendarFrame",datetime.today())
         self.Calendar.pack(expand=True, fill='both')
-        # self.CalendarFrame=ttk.Frame(self)
-        # self.CalendarFrame.pack(expand=True, fill='both',padx=10,pady=10)
-        # tmp=CalendarSquare(self.CalendarFrame,"asd","15",True)
-        # tmp.pack()    
+        
         
 
     def redraw(self, delay=1000):

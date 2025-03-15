@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import datetime
 from callendarRect import CalendarSquare
+import tkinter.font as TkFont
 
 class CalendarFrame(ttk.Frame):
     def __init__(self, parent, tag, date):
@@ -11,15 +12,15 @@ class CalendarFrame(ttk.Frame):
         self.tag=tag
         self.date_list=self.create_date_list(self.curr_date)
         print(self.date_list[0],self.date_list[-1],len(self.date_list))
-        # self.__menu=ttk.Frame(self)
-        # self.__menu.pack(expand=True, fill='both')
+        self.__menu=ttk.Frame(self)
         
+        self.__menu.pack(expand=True, fill='both')
+        self.create_header()
         
         self.CalendarFrame=ttk.Frame(self)
         self.CalendarFrame.pack(expand=True, fill='both',padx=10,pady=10)
         self.rect = {} 
         self.create_body(self.date_list)
-
         
 
     def create_date_list(self,today_date):
@@ -65,4 +66,29 @@ class CalendarFrame(ttk.Frame):
                     incurrent=True
                 self.rect[row,column] = CalendarSquare(self.CalendarFrame,f"{row}+{column}",str(date.day),incurrent)
                 self.rect[row,column].grid(row=row,column=column,sticky='nswe',padx=(0,0),pady=(0,0))
-                
+    def create_header(self):
+        previous=ttk.Button(self.__menu,text="<",command=lambda: self.change_month("prev"))
+        previous.grid(row=0,column=0)
+        self.header_canvas=tk.Canvas(self.__menu,height=100,width=730)
+        self.header_canvas.grid(row=0,column=1)
+        self.header_canvas.create_text(365,50,text=self.date_list[15].strftime("%B"),font=TkFont.Font(family='fixed',size=20))
+        next_month=ttk.Button(self.__menu,text=">",command=lambda: self.change_month("next"))
+        next_month.grid(row=0,column=2)
+
+        
+        
+    def clean_calendar(self):
+        for val in self.rect:
+            self.rect[val].delete_rect()
+
+    def change_month(self,mode):
+        if mode=="next":
+            next_date=self.date_list[15]+datetime.timedelta(days=30)            
+        else:
+            next_date=self.date_list[15]-datetime.timedelta(days=40)
+            
+        self.date_list=self.create_date_list(next_date)
+        self.clean_calendar()
+        self.create_body(self.date_list)
+        self.header_canvas.delete("all")
+        self.header_canvas.create_text(365,50,text=self.date_list[15].strftime("%B"),font=TkFont.Font(family='fixed',size=20))
