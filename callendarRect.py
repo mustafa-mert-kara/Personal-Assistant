@@ -3,10 +3,12 @@ from tkinter import ttk
 
 
 class CalendarSquare(ttk.Frame):
-    def __init__(self, parent, tag, date,curr):
-        tk.Frame.__init__(self, parent,width=500, height=500,background="white")
-        self.__width=120
-        self.__height=110
+    def __init__(self, parent, tag, date,curr,width,height):
+        tk.Frame.__init__(self, parent,width=width, height=height,background="white")
+        # self.__width=120
+        # self.__height=110
+        self.__width=width
+        self.__height=height
         self.tag=tag
         self.date=date
         self.__curr=curr

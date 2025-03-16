@@ -1,23 +1,26 @@
 import tkinter as tk
 from tkinter import ttk
 from Calendar import CalendarFrame
-from callendarRect import CalendarSquare
+from ListandMenu import Menu
 from datetime import datetime
 
+
 class Window(tk.Tk):
-    def __init__(self,width,height,*args,**kwargs):
+    def __init__(self,width,height,data_processor,*args,**kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
         self.geometry(f"{width}x{height}")
         
+        self.data_processor=data_processor
        
-        self.rows = 100
-        self.columns = 100
-        self.cellwidth = 100
-        self.cellheight = 100
 
         self.Calendar=CalendarFrame(self,"CalendarFrame",datetime.today())
-        self.Calendar.pack(expand=True, fill='both')
-        
+        # self.Calendar.pack(expand=True, fill='both')
+        self.Calendar.grid(row=0,column=0)
+        self.List=Menu(self,"listandmenu")
+        # self.List.pack(expand=True, fill='both',side="right")
+        self.List.grid(row=0,column=1)
+
+
         
 
     def redraw(self, delay=1000):
@@ -30,3 +33,6 @@ class Window(tk.Tk):
             self.redraw()
     def close(self):
         self.is_running=False
+
+    def change_mode(self,new_mode):
+        pass
