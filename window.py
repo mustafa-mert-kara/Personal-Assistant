@@ -45,11 +45,15 @@ class Window(tk.Tk):
     def change_mode(self,new_mode):
         if new_mode=="expense" and self.mode!="expense":
             data,daily_data=self.data_processor.prepare_expense_view()
+            self.Calendar.clean_calendar()
+            self.Calendar.build_calendar()
             self.Calendar.show_expenses(daily_data)
             self.List.show_expenses(data)
             self.mode="expense"
         elif new_mode=="event" and self.mode!="event":
             data,daily_data=self.data_processor.prepare_event_view()
+            self.Calendar.clean_calendar()
+            self.Calendar.build_calendar()
             self.Calendar.show_events(daily_data)
             self.List.show_events(data)
             self.mode="event"

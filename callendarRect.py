@@ -5,8 +5,6 @@ from tkinter import ttk
 class CalendarSquare(ttk.Frame):
     def __init__(self, parent, tag, date,curr,width,height):
         tk.Frame.__init__(self, parent,width=width, height=height,background="white")
-        # self.__width=120
-        # self.__height=110
         self.__width=width
         self.__height=height
         self.tag=tag
@@ -28,4 +26,18 @@ class CalendarSquare(ttk.Frame):
 
     def show_expense(self,amount):
         self.__canvas.create_text(40,self.__height//2,text=f"Amount: {amount}",fill="black")
+    
+    def show_event(self,events):
+        bias=20
+        vertical=self.__height//2-bias
+        if len(events)<3:            
+            for event in events:
+                self.__canvas.create_text(40,vertical,text=f"{event.name}",fill="black")
+                vertical+=bias
+        else:
+            for event in events[:2]:
+                self.__canvas.create_text(40,vertical,text=f"{event.name}",fill="black")
+                vertical+=bias
+            self.__canvas.create_text(40,vertical,text=f"...",fill="black")
+
         

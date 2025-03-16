@@ -14,9 +14,9 @@ class CalendarFrame(ttk.Frame):
         self.parent=parent
 
         self.rect_width,self.rect_height=self.calculate_rect_size()
-
-        self.tag=tag
         self.date_list=self.create_date_list(self.curr_date)
+        self.tag=tag
+        
         self.__menu=ttk.Frame(self,width=self.width,height=self.header_height)
         
         # self.__menu.pack(expand=True, fill='both')
@@ -27,7 +27,17 @@ class CalendarFrame(ttk.Frame):
         # self.CalendarFrame.pack(expand=True, fill='both',padx=10,pady=10)
         self.CalendarFrame.grid(row=1,column=0)
         self.rect = {} 
+        # self.create_body(self.date_list)
+        self.build_calendar()
+
+    def build_calendar(self,next_date=None):
+        if len(self.rect)!=0:
+            self.clean_calendar()
+        if next_date is not None:
+            self.date_list=self.create_date_list(next_date)
+        self.clean_calendar()
         self.create_body(self.date_list)
+        self.create_header()
         
 
     def create_date_list(self,today_date):
@@ -62,7 +72,8 @@ class CalendarFrame(ttk.Frame):
         
         return date_list
 
-    def create_body(self,date_list):             
+    def create_body(self,date_list):   
+                  
         row_count=len(date_list)//7
         active_month=self.date_list[15].month
         for column in range(7):
@@ -88,17 +99,16 @@ class CalendarFrame(ttk.Frame):
     def clean_calendar(self):
         for val in self.rect:
             self.rect[val].delete_rect()
+        self.header_canvas.delete("all")
 
     def change_month(self,mode):
         if mode=="next":
             next_date=self.date_list[15]+datetime.timedelta(days=30)            
         else:
             next_date=self.date_list[15]-datetime.timedelta(days=30)
-            
-        self.date_list=self.create_date_list(next_date)
-        self.clean_calendar()
-        self.create_body(self.date_list)
-        self.header_canvas.delete("all")
+        self.build_calendar(next_date=next_date)
+        
+        
         self.header_canvas.create_text(365,50,text=self.date_list[15].strftime("%B"),font=TkFont.Font(family='fixed',size=20))
         self.parent.month_change()
     def calculate_rect_size(self):
@@ -115,4 +125,9 @@ class CalendarFrame(ttk.Frame):
 
         
     def show_events(self,daily_events):
-        pass
+        for date in self.date_list:
+            date=date.date()
+            print("looking for date: ",date)
+            if str(date) in daily_events.keys():
+                print("in here")
+                self.rect[date].show_event(daily_events[str(date)])
