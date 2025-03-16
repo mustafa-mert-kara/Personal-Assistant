@@ -25,3 +25,7 @@ class CalendarSquare(ttk.Frame):
     def delete_rect(self):
         self.__canvas.delete("all")
         self.__canvas.configure(bg = 'white')
+
+    def show_expense(self,amount):
+        self.__canvas.create_text(40,self.__height//2,text=f"Amount: {amount}",fill="black")
+        

@@ -1,5 +1,7 @@
 import os
 from Data import Data,ExpenseData,EventData,read_events,read_expenses
+
+from datetime import datetime
 class DataProcessor():
     def __init__(self,folder_path,expense_file,event_file):
 
@@ -62,3 +64,19 @@ class DataProcessor():
             res= read_events(fp)
         fp.close()
         return res
+    def prepare_expense_view(self):
+        data=self.read_all_file("expenses")
+        daily_total={}
+        for val in data:
+            if val.date not in daily_total:
+                daily_total[val.date]=0
+            daily_total[val.date]+=val.amount
+        return data,daily_total
+    def prepare_event_view(self):
+        data=self.read_all_file("events")
+        daily_events={}
+        for val in data:
+            if val.date not in daily_events:
+                daily_events[val.date]=[]
+            daily_events[val.date].append(val)
+        return data,daily_events

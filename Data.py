@@ -1,4 +1,5 @@
 from abc import ABC,abstractmethod
+from datetime import datetime
 
 class Data(ABC):
 
@@ -8,6 +9,9 @@ class Data(ABC):
     
     @abstractmethod
     def __str__(self):
+        pass
+    @abstractmethod
+    def __eq__(self, value):
         pass
     
 
@@ -46,6 +50,14 @@ class EventData(Data):
         for tag in self.tags:
             write_str+=f",{tag}"
         return write_str
+    def __eq__(self, value):
+        if self.date==value.date and self.name==value.name and self.duration==value.duration and self.start==value.start and self.end == value.end:
+            for val in self.tags:
+                if val not in value.tags:
+                    return False
+            if len(self.tags)==len(value.tags):
+                return True
+        return False
     
 
 class ExpenseData(Data):
@@ -61,7 +73,7 @@ class ExpenseData(Data):
         if data_features is not None:
             self.date=data_features[0]
             self.type=data_features[1]
-            self.amount=data_features[2]
+            self.amount=int(data_features[2])
             self.source=data_features[3]
             self.details=data_features[4]
 
@@ -72,6 +84,10 @@ class ExpenseData(Data):
 
     def __str__(self):
         return f"{self.date},{self.type},{self.amount},{self.source},{self.details}"
+    def __eq__(self, value):
+        if self.date==value.date and self.type == value.type and self.amount == value.amount and self.source==value.source and self.details==value.details:
+            return True
+        return False
 
 
 def read_events(file):

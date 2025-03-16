@@ -11,6 +11,7 @@ class CalendarFrame(ttk.Frame):
         self.width=width
         self.height=height
         self.header_height=100
+        self.parent=parent
 
         self.rect_width,self.rect_height=self.calculate_rect_size()
 
@@ -71,8 +72,8 @@ class CalendarFrame(ttk.Frame):
                     incurrent=False
                 else:
                     incurrent=True
-                self.rect[date] = CalendarSquare(self.CalendarFrame,f"{row}+{column}",str(date.day),incurrent,self.rect_width,self.rect_height)
-                self.rect[date].grid(row=row,column=column,sticky='nswe',padx=(0,0),pady=(0,0))
+                self.rect[date.date()] = CalendarSquare(self.CalendarFrame,f"{row}+{column}",str(date.day),incurrent,self.rect_width,self.rect_height)
+                self.rect[date.date()].grid(row=row,column=column,sticky='nswe',padx=(0,0),pady=(0,0))
     def create_header(self):
         previous=ttk.Button(self.__menu,text="<",command=lambda: self.change_month("prev"))
         previous.grid(row=0,column=0)
@@ -99,6 +100,19 @@ class CalendarFrame(ttk.Frame):
         self.create_body(self.date_list)
         self.header_canvas.delete("all")
         self.header_canvas.create_text(365,50,text=self.date_list[15].strftime("%B"),font=TkFont.Font(family='fixed',size=20))
-
+        self.parent.month_change()
     def calculate_rect_size(self):
         return self.width//7,(self.height-self.header_height)//6
+    
+    def show_expenses(self,dail_expenses):
+        print("daily expenses: ",dail_expenses)
+        for date in self.date_list:
+            date=date.date()
+            print("looking for date: ",date)
+            if str(date) in dail_expenses.keys():
+                print("in here")
+                self.rect[date].show_expense(dail_expenses[str(date)])
+
+        
+    def show_events(self,daily_events):
+        pass

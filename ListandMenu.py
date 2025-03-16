@@ -8,6 +8,7 @@ class Menu(ttk.Frame):
         tk.Frame.__init__(self, parent,width=100, height=100,background="white")
         self.tag=tag
         self.parent_window=parent
+        
 
         self.__menu=ttk.Frame(self)
         
@@ -24,3 +25,8 @@ class Menu(ttk.Frame):
         expense_tracking.grid(row=0,column=0)        
         event_tracking=ttk.Button(self.__menu,text="Planned Events",command=lambda: self.parent_window.change_mode("event"))
         event_tracking.grid(row=0,column=1)
+    
+    def show_expenses(self,data):
+        pass
+    def show_events(self,data):
+        pass
