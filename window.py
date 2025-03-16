@@ -12,13 +12,18 @@ class Window(tk.Tk):
         self.geometry(f"{width}x{height}")
         
         self.data_processor=data_processor
+
+        self.__calendar_width=840
+        self.__calendar_height=760
+
+        self.current_date=datetime.today().date()
        
         self.mode=""
 
-        self.Calendar=CalendarFrame(self,"CalendarFrame",datetime.today())
+        self.Calendar=CalendarFrame(self,"CalendarFrame",datetime.today(),height=self.__calendar_height,width=self.__calendar_width)
         # self.Calendar.pack(expand=True, fill='both')
         self.Calendar.grid(row=0,column=0)
-        self.List=Menu(self,"listandmenu")
+        self.List=Menu(self,"listandmenu",height=self.__calendar_height-170,width=width-self.__calendar_width-50)
         # self.List.pack(expand=True, fill='both',side="right")
         self.List.grid(row=0,column=1)
         self.change_mode("expense")
@@ -37,10 +42,12 @@ class Window(tk.Tk):
     def close(self):
         self.is_running=False
 
-    def month_change(self):
+    def month_change(self,next_date):
         tmp=self.mode
         self.mode=""
+        self.current_date=next_date
         self.change_mode(tmp)
+        
 
     def change_mode(self,new_mode):
         if new_mode=="expense" and self.mode!="expense":
@@ -48,12 +55,14 @@ class Window(tk.Tk):
             self.Calendar.clean_calendar()
             self.Calendar.build_calendar()
             self.Calendar.show_expenses(daily_data)
-            self.List.show_expenses(data)
+            self.List.clean_list()
+            self.List.show_expenses(data,self.current_date)
             self.mode="expense"
         elif new_mode=="event" and self.mode!="event":
             data,daily_data=self.data_processor.prepare_event_view()
             self.Calendar.clean_calendar()
             self.Calendar.build_calendar()
             self.Calendar.show_events(daily_data)
-            self.List.show_events(data)
+            self.List.clean_list()
+            self.List.show_events(data,self.current_date)
             self.mode="event"

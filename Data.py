@@ -29,7 +29,7 @@ class EventData(Data):
         """
 
         if data_features is not None:
-            self.date=data_features[0]
+            self.date=datetime.strptime(data_features[0], '%Y-%m-%d').date()
             self.name=data_features[1]
             self.start=data_features[2]
             self.end=data_features[3]
@@ -59,6 +59,9 @@ class EventData(Data):
                 return True
         return False
     
+    def str_to(self):
+        return f"{self.date}::{self.name}::{self.duration}"
+    
 
 class ExpenseData(Data):
     def __init__(self,data_features=None):
@@ -71,7 +74,7 @@ class ExpenseData(Data):
         Expense From?
         """
         if data_features is not None:
-            self.date=data_features[0]
+            self.date=datetime.strptime(data_features[0], '%Y-%m-%d').date()
             self.type=data_features[1]
             self.amount=int(data_features[2])
             self.source=data_features[3]
@@ -81,6 +84,9 @@ class ExpenseData(Data):
 
     def write_to_file(self, file):
         file.write(f"{self.date},{self.type},{self.amount},{self.source},{self.details}\n")
+
+    def str_to(self):
+        return f"{self.date}::{self.type}::{self.amount}"
 
     def __str__(self):
         return f"{self.date},{self.type},{self.amount},{self.source},{self.details}"

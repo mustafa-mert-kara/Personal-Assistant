@@ -31,10 +31,14 @@ Personal Project #1
   -sub lists
 
 TO-DO:
-- create Callender view -- Done
 - make days clickable
+- event and expense adding
+- showing monthly total in current day
+- create Callender view -- Done
 -build expense tracking logic
-  - saving to drive 
-  - reading from drive
-  - showin daily expenses on calendar
-  - showing monthly total in current day
+  - saving to drive -- Done
+  - reading from drive -- Done
+  - showin daily expenses on calendar -- Done
+  
+-build event tracking --done
+

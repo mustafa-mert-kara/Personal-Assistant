@@ -110,24 +110,19 @@ class CalendarFrame(ttk.Frame):
         
         
         self.header_canvas.create_text(365,50,text=self.date_list[15].strftime("%B"),font=TkFont.Font(family='fixed',size=20))
-        self.parent.month_change()
+        self.parent.month_change(next_date)
     def calculate_rect_size(self):
         return self.width//7,(self.height-self.header_height)//6
     
     def show_expenses(self,dail_expenses):
-        print("daily expenses: ",dail_expenses)
         for date in self.date_list:
             date=date.date()
-            print("looking for date: ",date)
-            if str(date) in dail_expenses.keys():
-                print("in here")
-                self.rect[date].show_expense(dail_expenses[str(date)])
+            if date in dail_expenses.keys():
+                self.rect[date].show_expense(dail_expenses[date])
 
         
     def show_events(self,daily_events):
         for date in self.date_list:
             date=date.date()
-            print("looking for date: ",date)
-            if str(date) in daily_events.keys():
-                print("in here")
-                self.rect[date].show_event(daily_events[str(date)])
+            if date in daily_events.keys():
+                self.rect[date].show_event(daily_events[date])
