@@ -13,19 +13,30 @@ class CalendarSquare(ttk.Frame):
         self.__canvas = tk.Canvas(self,height=self.__height,width=self.__width,bg = '#afeeee')
         self.__canvas.pack(fill="both", expand=True)
         self.create_dateText()
+        
+
+    def mark_current_day(self):
+        coords=list(self.__canvas.bbox("date_number"))
+        coords[0]-=3
+        coords[2]+=1
+
+        self.__canvas.create_oval(coords)
+        
 
     def create_dateText(self):
         if self.__curr:
-            self.__canvas.create_text(self.__width-10,10,text=self.date,fill="black",font=('Helvetica 15'))
+            self.__canvas.create_text(self.__width-10,10,text=self.date,fill="black",font=('Helvetica 15'),tags="date_number")
         else:
-            self.__canvas.create_text(self.__width-10,10,text=self.date,fill="grey",font=('Helvetica 15'))
+            self.__canvas.create_text(self.__width-10,10,text=self.date,fill="grey",font=('Helvetica 15'),tags="date_number")
 
     def delete_rect(self):
         self.__canvas.delete("all")
         self.__canvas.configure(bg = 'white')
 
     def show_expense(self,amount):
-        self.__canvas.create_text(40,self.__height//2,text=f"Amount: {amount}",fill="black")
+        self.__canvas.create_text(45,self.__height//2,text=f"Amount: {amount}",fill="black")
+    def show_monthly_expense(self,amount):
+        self.__canvas.create_text(50,self.__height//2+20,text=f"Amount: {amount}",fill="black")
     
     def show_event(self,events):
         bias=20
@@ -38,6 +49,6 @@ class CalendarSquare(ttk.Frame):
             for event in events[:2]:
                 self.__canvas.create_text(40,vertical,text=f"{event.name}",fill="black")
                 vertical+=bias
-            self.__canvas.create_text(40,vertical,text=f"...",fill="black")
+            self.__canvas.create_text(40,vertical,text="...",fill="black")
 
         

@@ -73,7 +73,7 @@ class CalendarFrame(ttk.Frame):
         return date_list
 
     def create_body(self,date_list):   
-                  
+        current_date=datetime.datetime.today().date()
         row_count=len(date_list)//7
         active_month=self.date_list[15].month
         for column in range(7):
@@ -85,6 +85,8 @@ class CalendarFrame(ttk.Frame):
                     incurrent=True
                 self.rect[date.date()] = CalendarSquare(self.CalendarFrame,f"{row}+{column}",str(date.day),incurrent,self.rect_width,self.rect_height)
                 self.rect[date.date()].grid(row=row,column=column,sticky='nswe',padx=(0,0),pady=(0,0))
+                if date.date()==current_date:
+                    self.rect[date.date()].mark_current_day()
     def create_header(self):
         previous=ttk.Button(self.__menu,text="<",command=lambda: self.change_month("prev"))
         previous.grid(row=0,column=0)
@@ -106,11 +108,12 @@ class CalendarFrame(ttk.Frame):
             next_date=self.date_list[15]+datetime.timedelta(days=30)            
         else:
             next_date=self.date_list[15]-datetime.timedelta(days=30)
-        self.build_calendar(next_date=next_date)
-        
-        
+        self.build_calendar(next_date=next_date)        
         self.header_canvas.create_text(365,50,text=self.date_list[15].strftime("%B"),font=TkFont.Font(family='fixed',size=20))
         self.parent.month_change(next_date)
+
+
+
     def calculate_rect_size(self):
         return self.width//7,(self.height-self.header_height)//6
     
@@ -120,9 +123,19 @@ class CalendarFrame(ttk.Frame):
             if date in dail_expenses.keys():
                 self.rect[date].show_expense(dail_expenses[date])
 
+        curr_date=datetime.datetime.today().date()
+        monthly_sum=0
+        for _ in range(31):
+            if curr_date in dail_expenses.keys():
+                monthly_sum+=dail_expenses[curr_date]
+            curr_date-=datetime.timedelta(days=1)
+        self.rect[datetime.datetime.today().date()].show_monthly_expense(monthly_sum)
+        
+
         
     def show_events(self,daily_events):
         for date in self.date_list:
             date=date.date()
             if date in daily_events.keys():
                 self.rect[date].show_event(daily_events[date])
+        

@@ -56,8 +56,7 @@ class Menu(ttk.Frame):
         current_date=datetime.datetime.today().date()
 
         current_data=sorted(current_data,key=lambda x: abs((x.date-current_date).days))
-        for val in current_data:
-            print(val.date,(val.date-current_date).days)
+        
         position=10
         bias=20
         for val in current_data:
