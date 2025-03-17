@@ -66,3 +66,8 @@ class Window(tk.Tk):
             self.List.clean_list()
             self.List.show_events(data,self.current_date)
             self.mode="event"
+
+    def add_expense(self):
+        pass
+    def add_event(self):
+        pass

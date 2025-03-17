@@ -19,9 +19,13 @@ class Menu(ttk.Frame):
 
         self.__List=ttk.Frame(self)
         self.__List.pack(expand=True, fill='both')
+
+        self.__add_buttons=ttk.Frame(self)
+        self.__add_buttons.pack(expand=True, fill='both')
         
         self.create_menu()
         self.create_list()
+        self.create_footer()
 
     def clean_list(self):
         self.__canvas.delete("all")
@@ -64,4 +68,10 @@ class Menu(ttk.Frame):
             position+=bias
             if position>self.__height-20:
                 return
+            
+    def create_footer(self):
+        add_expense=ttk.Button(self.__add_buttons,text="+Add Expense",command=lambda: self.parent_window.add_expense())
+        add_expense.grid(row=0,column=0)        
+        add_event=ttk.Button(self.__add_buttons,text="+Add Event",command=lambda: self.parent_window.add_event())
+        add_event.grid(row=0,column=1)
         
