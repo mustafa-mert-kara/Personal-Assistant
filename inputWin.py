@@ -159,7 +159,6 @@ class EventInput(InputWindow):
 
         input_dict["allday"]=self.all_day_entry.get()==1
         input_dict["tags"]=self.tags_entry.get()
-        print(self.all_day_entry.get()==1)
         if input_dict["date"]=="" or not is_it_date(input_dict["date"]):
             tkinter.messagebox.showinfo(self.top,"Date is Wrong or Missing")
             raise ValueError()
@@ -183,15 +182,12 @@ class EventInput(InputWindow):
 def is_it_date(string):
     try:
         tmp=len(string.split("-"))
-        print(tmp)
         if tmp==3:
             return True
         tmp=len(string.split("/"))
-        print(tmp)
         if tmp==3:
             return True
         tmp=len(string.split("."))
-        print(tmp)
         if tmp==3:
             return True
         

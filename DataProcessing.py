@@ -17,7 +17,12 @@ class DataProcessor():
 
         self.files["events"]=self.return_or_create_file(os.path.join(folder_path,event_file))
         
+    def create_event(self,inputs):
+        return EventData(list(inputs.values()))
+        
 
+    def create_expense(self,inputs):
+        return ExpenseData(list(inputs.values()))
 
     def check_or_create_path(self,current_path,folder_path):
         if folder_path=="":

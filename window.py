@@ -49,25 +49,31 @@ class Window(tk.Tk):
         self.mode=""
         self.current_date=next_date
         self.change_mode(tmp)
-        
+
+    def rebuild_calendar(self):
+        self.Calendar.clean_calendar()
+        self.Calendar.build_calendar()
+        self.List.clean_list()
+
+    def create_infos(self):
+        if self.mode=="expense":
+            data,daily_data=self.data_processor.prepare_expense_view()
+            self.rebuild_calendar()
+            self.Calendar.show_expenses(daily_data)            
+            self.List.show_expenses(data,self.current_date)
+        elif self.mode=="event":
+            data,daily_data=self.data_processor.prepare_event_view()
+            self.rebuild_calendar()
+            self.Calendar.show_events(daily_data)
+            self.List.show_events(data,self.current_date)
 
     def change_mode(self,new_mode):
-        if new_mode=="expense" and self.mode!="expense":
-            data,daily_data=self.data_processor.prepare_expense_view()
-            self.Calendar.clean_calendar()
-            self.Calendar.build_calendar()
-            self.Calendar.show_expenses(daily_data)
-            self.List.clean_list()
-            self.List.show_expenses(data,self.current_date)
+        if new_mode=="expense" and self.mode!="expense":            
             self.mode="expense"
-        elif new_mode=="event" and self.mode!="event":
-            data,daily_data=self.data_processor.prepare_event_view()
-            self.Calendar.clean_calendar()
-            self.Calendar.build_calendar()
-            self.Calendar.show_events(daily_data)
-            self.List.clean_list()
-            self.List.show_events(data,self.current_date)
+            self.create_infos()
+        elif new_mode=="event" and self.mode!="event":           
             self.mode="event"
+            self.create_infos()
 
     def add_expense(self):        
         ExpenseInput(self,title="Add Expense")
@@ -78,6 +84,13 @@ class Window(tk.Tk):
         EventInput(self,title="Add Event")
         
     def new_input(self,input_dict):
-        pass
+        if "amount" in input_dict:
+            new_data=self.data_processor.create_expense(input_dict)
+        else:
+            new_data=self.data_processor.create_event(input_dict)
+
+        self.data_processor.write_to_file(new_data)
+        self.create_infos()
+        
 
 
