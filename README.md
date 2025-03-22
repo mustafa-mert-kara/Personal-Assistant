@@ -1,5 +1,6 @@
 # Personal-Assistant
 Personal Project #1
+A python desktop program that helps track a person's expenses and events. Has a calendar that show summary of either expenses or events scheduled for that month/day. There is also more detailed view of daily items.
 
 ##Project Overview:
 
