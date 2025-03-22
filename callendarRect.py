@@ -36,7 +36,7 @@ class CalendarSquare(ttk.Frame):
     def show_expense(self,amount):
         self.__canvas.create_text(45,self.__height//2,text=f"Amount: {amount}",fill="black")
     def show_monthly_expense(self,amount):
-        self.__canvas.create_text(50,self.__height//2+20,text=f"Amount: {amount}",fill="black")
+        self.__canvas.create_text(50,self.__height//2+20,text=f"Monthly: {amount}",fill="black")
     
     def show_event(self,events):
         bias=20

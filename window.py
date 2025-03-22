@@ -1,9 +1,11 @@
 import tkinter as tk
+
 from tkinter import ttk
 from Calendar import CalendarFrame
 from ListandMenu import Menu
 from datetime import datetime
 from DataProcessing import DataProcessor
+from inputWin import ExpenseInput,EventInput
 
 
 class Window(tk.Tk):
@@ -67,7 +69,15 @@ class Window(tk.Tk):
             self.List.show_events(data,self.current_date)
             self.mode="event"
 
-    def add_expense(self):
-        pass
+    def add_expense(self):        
+        ExpenseInput(self,title="Add Expense")
+        
+
+        
     def add_event(self):
+        EventInput(self,title="Add Event")
+        
+    def new_input(self,input_dict):
         pass
+
+
