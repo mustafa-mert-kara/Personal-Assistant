@@ -107,11 +107,11 @@ class Window(tk.Tk):
 
 
         current_data=list(filter(lambda x: x.date==date,data))
-        print(current_data)
+        
         current_data=sorted(current_data,key=sort_logic,reverse=reverse)
         DetailWindow(self,title,date,current_data)
 
-        print(date)
+        
         
         
 

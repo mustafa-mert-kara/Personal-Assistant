@@ -31,11 +31,9 @@ class DetailWindow(ttk.Frame):
             string=str(val)
             if len(string)>max_length:
                 max_length=len(string)
-        print(max_length)
         for val in self.data:
             string=str(val)
             string_len=len(string)
-            print(-max_length-(max_length-string_len))
             self.__canvas.create_text(max_length*3+3-(max_length-string_len)*3,position,text=string,fill="black")
             position+=bias
             if position>self.height-20:
