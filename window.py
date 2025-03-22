@@ -6,6 +6,7 @@ from ListandMenu import Menu
 from datetime import datetime
 from DataProcessing import DataProcessor
 from inputWin import ExpenseInput,EventInput
+from detailsWin import DetailWindow
 
 
 class Window(tk.Tk):
@@ -91,6 +92,27 @@ class Window(tk.Tk):
 
         self.data_processor.write_to_file(new_data)
         self.create_infos()
+
+    def detailed_daily(self,date):
+        if self.mode=="expense":
+            data,_=self.data_processor.prepare_expense_view()
+            title="Expense Details For "+str(date)
+            sort_logic=lambda x: x.amount
+            reverse=True
+        elif self.mode=="event":
+            data,_=self.data_processor.prepare_event_view()
+            title="Event Details For "+str(date)
+            sort_logic=lambda x: abs((x.date-date).days)
+            reverse=False
+
+
+        current_data=list(filter(lambda x: x.date==date,data))
+        print(current_data)
+        current_data=sorted(current_data,key=sort_logic,reverse=reverse)
+        DetailWindow(self,title,date,current_data)
+
+        print(date)
+        
         
 
 

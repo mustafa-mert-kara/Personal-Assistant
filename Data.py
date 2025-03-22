@@ -46,9 +46,17 @@ class EventData(Data):
         write_str+="\n"
         file.write(write_str)
     def __str__(self):
-        write_str=f"Date: {self.date}, Name: {self.name}, Event Start: {self.start}, End: {self.end}, isAllDay: {self.duration} Tags: "
+        write_str=f"Date: {self.date}::Name: {self.name}"
+        if self.duration:
+            write_str+=f"::isAllDay: {self.duration}"
+        else:
+            if self.start!="":
+                write_str+=f"::Event Start: {self.start}"
+            if self.end!="":
+                write_str+=f"::End: {self.end}"
         for tag in self.tags:
-            write_str+=f",{tag}"
+            if tag!="":
+                write_str+=f" #{tag}"
         return write_str
     def __eq__(self, value):
         if self.date==value.date and self.name==value.name and self.duration==value.duration and self.start==value.start and self.end == value.end:
@@ -77,8 +85,8 @@ class ExpenseData(Data):
             self.date=datetime.strptime(data_features[0], '%Y-%m-%d').date()
             self.type=data_features[1]
             self.amount=int(data_features[2])
-            self.source=data_features[3]
-            self.details=data_features[4]
+            self.source=data_features[4]
+            self.details=data_features[3]
 
         super().__init__()
 
@@ -89,7 +97,13 @@ class ExpenseData(Data):
         return f"{self.date}::{self.type}::{self.amount}"
 
     def __str__(self):
-        return f"{self.date},{self.type},{self.amount},{self.source},{self.details}"
+        string=f"Date: {self.date}::Type: {self.type}::Amount: {self.amount}"
+        if self.source!="":
+            string+="::From: "+self.source
+        if self.details!="":
+            string+="::Details: "+self.details
+        return string
+        
     def __eq__(self, value):
         if self.date==value.date and self.type == value.type and self.amount == value.amount and self.source==value.source and self.details==value.details:
             return True

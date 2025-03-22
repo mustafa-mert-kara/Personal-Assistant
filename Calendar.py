@@ -83,7 +83,7 @@ class CalendarFrame(ttk.Frame):
                     incurrent=False
                 else:
                     incurrent=True
-                self.rect[date.date()] = CalendarSquare(self.CalendarFrame,f"{row}+{column}",str(date.day),incurrent,self.rect_width,self.rect_height)
+                self.rect[date.date()] = CalendarSquare(self.CalendarFrame,f"{row}+{column}",str(date.day),incurrent,self.rect_width,self.rect_height,fulldate=date.date())
                 self.rect[date.date()].grid(row=row,column=column,sticky='nswe',padx=(0,0),pady=(0,0))
                 if date.date()==current_date:
                     self.rect[date.date()].mark_current_day()

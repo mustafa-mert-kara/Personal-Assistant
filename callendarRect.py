@@ -3,7 +3,7 @@ from tkinter import ttk
 
 
 class CalendarSquare(ttk.Frame):
-    def __init__(self, parent, tag, date,curr,width,height):
+    def __init__(self, parent, tag, date,curr,width,height,fulldate):
         tk.Frame.__init__(self, parent,width=width, height=height,background="white")
         self.__width=width
         self.__height=height
@@ -12,6 +12,7 @@ class CalendarSquare(ttk.Frame):
         self.__curr=curr
         self.__canvas = tk.Canvas(self,height=self.__height,width=self.__width,bg = '#afeeee')
         self.__canvas.pack(fill="both", expand=True)
+        self.__canvas.bind("<Button-1>",lambda x: parent.master.parent.detailed_daily(fulldate))
         self.create_dateText()
         
 
