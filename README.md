@@ -31,9 +31,15 @@ Personal Project #1
   -sub lists
 
 TO-DO:
-- make days clickable
-- event and expense adding
-- showing monthly total in current day
+- Item Deletion
+- Special Sortings
+-   expense type sorting
+-   tag based sorting in events
+- Event Notifications
+- Expense Analysis Tools
+- make days clickable -- Done
+- event and expense adding -- Done
+- showing monthly total in current day -- Done
 - create Callender view -- Done
 -build expense tracking logic
   - saving to drive -- Done
